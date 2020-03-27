@@ -1,5 +1,7 @@
-const { expect } = require('chai')
-const supertest = require('supertest')
+'use strict';
 
-global.expect = expect
-global.supertest = supertest
+const { expect } = require('chai');
+const supertest = require('supertest');
+
+global.expect = expect;
+global.supertest = supertest;
