@@ -56,15 +56,21 @@ bookmarksRouter
 
     bookmarks.push(bookmark);
 
-  });
-  
-bookmarksRouter
-  .route('/booksmark/:id')
-  .get((req, res) => {
-    const  { id } = req.params;
-    const bookmark = bookmarks.find(b => b.id === id);
+    logger.info(`Bookmark with id ${bookmark.id} has been created`)
+    res
+      .status(201)
+      .location(`http://localhost:8000/bookmarks/${bookmark.id}`)
+      .json(bookmark)
 
-    if (bookmark) {
+  });
+
+bookmarksRouter
+  .route('/bookmarks/:id')
+  .get((req, res) => {
+    const { id } = req.params;
+    const bookmark = bookmarks.find(b => b.id == id);
+
+    if (!bookmark) {
       logger.error(`Bookmark with id ${id} not found`);
       return res
         .status(404)
@@ -74,10 +80,10 @@ bookmarksRouter
     res.json(bookmark);
   })
   .delete((req, res) => {
-    const { id } = req. params;
+    const { id } = req.params;
 
     const bookmarkIndex = bookmarks.findIndex(b => b.id === id);
-    
+
     if (!bookmarkIndex === -1) {
       logger.error(`Bookmark with id ${id} not found`);
       return res
@@ -93,3 +99,5 @@ bookmarksRouter
       .status(204)
       .end();
   });
+
+module.exports = bookmarksRouter
